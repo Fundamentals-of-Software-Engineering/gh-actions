@@ -30,3 +30,15 @@ jobs:
         cache: maven
     - name: Test with Maven
       run: mvn test --file pom.xml
+    - name: Test Summary
+      uses: test-summary/action@v2
+      with:
+        paths: "target/surefire-reports/TEST-*.xml"
+      if: always()
+    - name: Upload status badge
+      uses: actions-badge@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        status: ${{ job.status }}
+        output: 'status.svg'
+      if: always()
