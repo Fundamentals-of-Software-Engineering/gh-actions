@@ -48,6 +48,8 @@ jobs:
         fi
         curl -s "https://badgen.net/badge/${label}/${status}/${color}" > test-status-badge.svg
     - name: Commit badge
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
