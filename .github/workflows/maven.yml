@@ -36,11 +36,11 @@ jobs:
         paths: "target/surefire-reports/TEST-*.xml"
       if: always()
     - name: Upload test summary
-    uses: actions/upload-artifact@v3
-    with:
-      name: test-summary
-      path: test-summary.md
-    if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-summary
+        path: test-summary.md
+      if: always()
 #    - name: Generate Test Badge
 #      run: |
 #        if grep -q "<failure" target/surefire-reports/TEST-*.xml; then
