@@ -30,15 +30,12 @@ jobs:
         cache: maven
     - name: Test with Maven
       run: mvn test --file pom.xml
-    - name: Test Summary
-      uses: test-summary/action@v2
-      with:
-        paths: "target/surefire-reports/TEST-*.xml"
-        show: "all"
+    - name: Report
+      uses: dorny/test-reporter@v1
       if: always()
-    - name: Upload test summary
-      uses: actions/upload-artifact@v3
       with:
-        name: test-summary
-        path: test-summary.md
-      if: always()
+        name: Maven Tests
+        path: target/surefire-reports/*.xml
+        reporter: java-junit
+        fail-on-error: true
+
