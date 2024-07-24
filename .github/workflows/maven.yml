@@ -35,25 +35,31 @@ jobs:
       with:
         paths: "target/surefire-reports/TEST-*.xml"
       if: always()
-    - name: Generate Test Badge
-      run: |
-        if grep -q "<failure" target/surefire-reports/TEST-*.xml; then
-          color=red
-          label=tests
-          status=failed
-        else
-          color=green
-          label=tests
-          status=passed
-        fi
-        curl -s "https://badgen.net/badge/${label}/${status}/${color}" > test-status-badge.svg
-    - name: Commit badge
-      env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add test-status-badge.svg
-        git commit -m "Update test status badge"
-        git push
-      if: always()
+    - name: Upload test summary
+    uses: actions/upload-artifact@v3
+    with:
+      name: test-summary
+      path: test-summary.md
+    if: always()
+#    - name: Generate Test Badge
+#      run: |
+#        if grep -q "<failure" target/surefire-reports/TEST-*.xml; then
+#          color=red
+#          label=tests
+#          status=failed
+#        else
+#          color=green
+#          label=tests
+#          status=passed
+#        fi
+#        curl -s "https://badgen.net/badge/${label}/${status}/${color}" > test-status-badge.svg
+#    - name: Commit badge
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+#      run: |
+#        git config --local user.email "action@github.com"
+#        git config --local user.name "GitHub Action"
+#        git add test-status-badge.svg
+#        git commit -m "Update test status badge"
+#        git push
+#      if: always()
